@@ -176,6 +176,17 @@ h3.sub{font-family:var(--f-mono);font-size:13px;color:var(--cyan);letter-spacing
 
 footer{padding-block:36px 48px;color:var(--dim);font-family:var(--f-mono);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 
+
+/* video thumbnails */
+.thumb{height:auto!important;aspect-ratio:16/9;container-type:inline-size;background:#000}
+.proj.feature .thumb{aspect-ratio:21/9}
+.thumb canvas{position:absolute;inset:0}
+.thumb iframe{position:absolute;left:0;top:50%;width:100%;height:56.25cqw;transform:translateY(-50%);border:0;pointer-events:none;z-index:1}
+.thumb .tag,.thumb .award{z-index:3}
+.thumb-link{position:absolute;inset:0;z-index:2;display:flex;align-items:flex-end;justify-content:flex-end;padding:12px;text-decoration:none;background:linear-gradient(transparent 55%,rgba(7,7,13,.55));opacity:.0;transition:opacity .25s}
+.thumb-link span{font-family:var(--f-mono);font-size:12px;padding:6px 10px;border-radius:4px;background:rgba(7,7,13,.85);border:1px solid var(--cyan);color:var(--cyan);box-shadow:0 0 14px var(--cyan-glow)}
+.proj:hover .thumb-link,.thumb-link:focus-visible{opacity:1}
+@media (hover:none){.thumb-link{opacity:1;background:none}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 </style>
 
@@ -257,7 +268,7 @@ footer{padding-block:36px 48px;color:var(--dim);font-family:var(--f-mono);font-s
 
       <div class="projects" id="plist">
         <article class="proj feature" data-s="live">
-          <div class="thumb"><canvas data-art="vr"></canvas><span class="tag live">STEAM · STOVE</span><span class="award">인디크래프트 2026 입상</span></div>
+          <div class="thumb"><canvas data-art="vr"></canvas><iframe src="https://www.youtube-nocookie.com/embed/E11Qzn8VuAc?autoplay=1&mute=1&loop=1&playlist=E11Qzn8VuAc&controls=0&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3&disablekb=1" title="칼퇴의 정석 VR 플레이 영상" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" tabindex="-1" aria-hidden="true"></iframe><a class="thumb-link" href="https://store.onstove.com/ko/games/104199" target="_blank" rel="noopener" aria-label="STOVE에서 칼퇴의 정석 VR 보기"><span>STOVE에서 보기 ↗</span></a><span class="tag live">STEAM · STOVE</span><span class="award">인디크래프트 2026 입상</span></div>
           <div class="pbody">
             <div class="pmeta">VR 잠입 · 팀 프로젝트 · PM / 메인 개발</div>
             <h3>칼퇴의 정석 VR</h3>
@@ -267,13 +278,13 @@ footer{padding-block:36px 48px;color:var(--dim);font-family:var(--f-mono);font-s
               <li>VR 프레임 최적화, 조작 체계, 멀미 저감 작업</li>
               <li>GXG 2026 부스 직접 운영 및 현장 플레이테스트</li>
             </ul>
-            <div class="plinks"><a href="https://github.com/Windintosh/EscapeTheOvertimeVR" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="plinks"><a href="https://store.onstove.com/ko/games/104199" target="_blank" rel="noopener">STOVE</a><a href="https://github.com/Windintosh/EscapeTheOvertimeVR" target="_blank" rel="noopener">GitHub</a></div>
             <div class="chips"><span class="chip">VR</span><span class="chip">Enemy AI</span><span class="chip">Optimization</span><span class="chip">PM</span></div>
           </div>
         </article>
 
         <article class="proj cy" data-s="live">
-          <div class="thumb"><canvas data-art="scp"></canvas><span class="tag live">STOVE</span></div>
+          <div class="thumb"><canvas data-art="scp"></canvas><iframe src="https://www.youtube-nocookie.com/embed/HIAi8N4QR1Q?autoplay=1&mute=1&loop=1&playlist=HIAi8N4QR1Q&controls=0&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3&disablekb=1" title="SCP 엑소더스 플레이 영상" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" tabindex="-1" aria-hidden="true"></iframe><a class="thumb-link" href="https://store.onstove.com/ko/games/102849" target="_blank" rel="noopener" aria-label="STOVE에서 SCP 엑소더스 보기"><span>STOVE에서 보기 ↗</span></a><span class="tag live">STOVE</span></div>
           <div class="pbody">
             <div class="pmeta">슈팅 · 팀 프로젝트 · 적 전투 / 레벨</div>
             <h3>SCP 엑소더스</h3>
@@ -282,49 +293,51 @@ footer{padding-block:36px 48px;color:var(--dim);font-family:var(--f-mono);font-s
               <li>비헤이비어 트리 기반 적 AI 설계</li>
               <li>적 출현 위치 레벨 디자인</li>
             </ul>
-            <div class="plinks"><a href="https://github.com/Windintosh/SCP_EXODUS" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="plinks"><a href="https://store.onstove.com/ko/games/102849" target="_blank" rel="noopener">STOVE</a><a href="https://github.com/Windintosh/SCP_EXODUS" target="_blank" rel="noopener">GitHub</a></div>
             <div class="chips"><span class="chip">Shooter</span><span class="chip">Behavior Tree</span><span class="chip">Level Design</span></div>
           </div>
         </article>
 
         <article class="proj" data-s="live">
-          <div class="thumb"><canvas data-art="pc"></canvas><span class="tag live">STOVE</span></div>
+          <div class="thumb"><canvas data-art="pc"></canvas><iframe src="https://www.youtube-nocookie.com/embed/wncZMqotBSM?autoplay=1&mute=1&loop=1&playlist=wncZMqotBSM&controls=0&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3&disablekb=1" title="칼퇴의 정석 플레이 영상" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" tabindex="-1" aria-hidden="true"></iframe><a class="thumb-link" href="https://store.onstove.com/ko/games/103783" target="_blank" rel="noopener" aria-label="STOVE에서 칼퇴의 정석 보기"><span>STOVE에서 보기 ↗</span></a><span class="tag live">STOVE</span></div>
           <div class="pbody">
             <div class="pmeta">잠입 · 팀 프로젝트 · 기획 / PM</div>
             <h3>칼퇴의 정석</h3>
             <p>칼퇴의 정석 PC 버전. 이후 VR판으로 확장된 작품입니다.</p>
-            <div class="plinks"><a href="https://github.com/Windintosh/EscapeTheOvertime" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="plinks"><a href="https://store.onstove.com/ko/games/103783" target="_blank" rel="noopener">STOVE</a><a href="https://github.com/Windintosh/EscapeTheOvertime" target="_blank" rel="noopener">GitHub</a></div>
             <div class="chips"><span class="chip">Stealth</span><span class="chip">Game Design</span><span class="chip">UI/UX</span></div>
           </div>
         </article>
 
         <article class="proj cy" data-s="dev">
-          <div class="thumb"><canvas data-art="dice"></canvas><span class="tag dev">STOVE DEMO · 개발 중</span></div>
+          <div class="thumb"><canvas data-art="dice"></canvas><iframe src="https://www.youtube-nocookie.com/embed/wKPchKZBTdQ?autoplay=1&mute=1&loop=1&playlist=wKPchKZBTdQ&controls=0&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3&disablekb=1" title="트리키 요트 플레이 영상" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" tabindex="-1" aria-hidden="true"></iframe><a class="thumb-link" href="https://store.onstove.com/ko/games/104888" target="_blank" rel="noopener" aria-label="STOVE에서 트리키 요트 보기"><span>STOVE에서 보기 ↗</span></a><span class="tag dev">STOVE DEMO · 개발 중</span></div>
           <div class="pbody">
             <div class="pmeta">2D 로그라이크 · 다이스 빌딩</div>
             <h3>트리키 요트</h3>
             <p>주사위를 모아 빌드를 완성하는 2D 로그라이크 다이스 빌딩 게임. 스토브인디에 데모를 공개하고 개발을 이어가고 있습니다.</p>
-            <div class="plinks"><a href="https://github.com/JungYS24/Tricky-Yacht" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="plinks"><a href="https://store.onstove.com/ko/games/104888" target="_blank" rel="noopener">STOVE</a><a href="https://github.com/JungYS24/Tricky-Yacht" target="_blank" rel="noopener">GitHub</a></div>
             <div class="chips"><span class="chip">Roguelike</span><span class="chip">Dice Building</span><span class="chip">Aseprite</span></div>
           </div>
         </article>
 
         <article class="proj" data-s="live">
-          <div class="thumb"><canvas data-art="td"></canvas><span class="tag live">STOVE</span></div>
+          <div class="thumb"><canvas data-art="td"></canvas><iframe src="https://www.youtube-nocookie.com/embed/NdqJckm4CB0?autoplay=1&mute=1&loop=1&playlist=NdqJckm4CB0&controls=0&rel=0&playsinline=1&modestbranding=1&iv_load_policy=3&disablekb=1" title="네버윈터 디펜스 플레이 영상" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" tabindex="-1" aria-hidden="true"></iframe><a class="thumb-link" href="https://store.onstove.com/ko/games/2673" target="_blank" rel="noopener" aria-label="STOVE에서 네버윈터 디펜스 보기"><span>STOVE에서 보기 ↗</span></a><span class="tag live">STOVE</span></div>
           <div class="pbody">
             <div class="pmeta">타워 디펜스 · 1학년 작품</div>
             <h3>네버윈터 디펜스</h3>
             <p>1학년 때 만들어 스토브인디에 출시한 타워 디펜스 게임입니다.</p>
+            <div class="plinks"><a href="https://store.onstove.com/ko/games/2673" target="_blank" rel="noopener">STOVE</a></div>
             <div class="chips"><span class="chip">Tower Defense</span><span class="chip">1st Release</span></div>
           </div>
         </article>
 
         <article class="proj cy" data-s="dev">
-          <div class="thumb"><canvas data-art="fish"></canvas><span class="tag dev">개발 중</span></div>
+          <div class="thumb"><canvas data-art="fish"></canvas><a class="thumb-link" href="https://jungys24.github.io/scrap-fishing/" target="_blank" rel="noopener" aria-label="스크랩 피싱 웹 빌드 플레이"><span>웹에서 플레이 ↗</span></a><span class="tag dev">개발 중</span></div>
           <div class="pbody">
             <div class="pmeta">사이버펑크 · 낚시 / 액션</div>
             <h3>스크랩 피싱</h3>
             <p>사이버펑크 세계를 배경으로 한 낚시 액션 게임을 개발하고 있습니다.</p>
+            <div class="plinks"><a href="https://jungys24.github.io/scrap-fishing/" target="_blank" rel="noopener">웹 빌드 플레이</a></div>
             <div class="chips"><span class="chip">Action</span><span class="chip">Fishing</span><span class="chip">Cyberpunk</span></div>
           </div>
         </article>
