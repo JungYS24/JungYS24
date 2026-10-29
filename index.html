@@ -183,6 +183,7 @@ footer{padding-block:36px 48px;color:var(--dim);font-family:var(--f-mono);font-s
 .thumb canvas{position:absolute;inset:0}
 .thumb iframe{position:absolute;left:0;top:50%;width:100%;height:56.25cqw;transform:translateY(-50%);border:0;pointer-events:none;z-index:1}
 .thumb .tag,.thumb .award{z-index:3}
+.thumb .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;z-index:1;display:block}
 .thumb-link{position:absolute;inset:0;z-index:2;display:flex;align-items:flex-end;justify-content:flex-end;padding:12px;text-decoration:none;background:linear-gradient(transparent 55%,rgba(7,7,13,.55));opacity:.0;transition:opacity .25s}
 .thumb-link span{font-family:var(--f-mono);font-size:12px;padding:6px 10px;border-radius:4px;background:rgba(7,7,13,.85);border:1px solid var(--cyan);color:var(--cyan);box-shadow:0 0 14px var(--cyan-glow)}
 .proj:hover .thumb-link,.thumb-link:focus-visible{opacity:1}
@@ -326,13 +327,13 @@ footer{padding-block:36px 48px;color:var(--dim);font-family:var(--f-mono);font-s
             <div class="pmeta">타워 디펜스 · 1학년 작품</div>
             <h3>네버윈터 디펜스</h3>
             <p>1학년 때 만들어 스토브인디에 출시한 타워 디펜스 게임입니다.</p>
-            <div class="plinks"><a href="https://store.onstove.com/ko/games/2673" target="_blank" rel="noopener">STOVE</a></div>
+            <div class="plinks"><a href="https://store.onstove.com/ko/games/2673" target="_blank" rel="noopener">STOVE</a><a href="https://github.com/KimBH04/NeverWinter" target="_blank" rel="noopener">GitHub</a></div>
             <div class="chips"><span class="chip">Tower Defense</span><span class="chip">1st Release</span></div>
           </div>
         </article>
 
         <article class="proj cy" data-s="dev">
-          <div class="thumb"><canvas data-art="fish"></canvas><a class="thumb-link" href="https://jungys24.github.io/scrap-fishing/" target="_blank" rel="noopener" aria-label="스크랩 피싱 웹 빌드 플레이"><span>웹에서 플레이 ↗</span></a><span class="tag dev">개발 중</span></div>
+          <div class="thumb"><canvas data-art="fish"></canvas><img class="shot" src="assets/scrap-fishing-shot.jpg" alt="스크랩 피싱 플레이 화면" loading="lazy"><a class="thumb-link" href="https://jungys24.github.io/scrap-fishing/" target="_blank" rel="noopener" aria-label="스크랩 피싱 웹 빌드 플레이"><span>웹에서 플레이 ↗</span></a><span class="tag dev">개발 중</span></div>
           <div class="pbody">
             <div class="pmeta">사이버펑크 · 낚시 / 액션</div>
             <h3>스크랩 피싱</h3>
