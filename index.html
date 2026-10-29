@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="정윤성 (JUNG YOON SUNG) — 전투 룰을 설계하고 직접 구현해서 밸런싱하는 테크니컬 게임디자이너 포트폴리오">
+<meta property="og:title" content="JUNG YOON SUNG — Technical Game Designer">
+<meta property="og:description" content="칼퇴의 정석 VR(인디크래프트 2026 입상), SCP 엑소더스, 트리키 요트 등 게임 프로젝트 포트폴리오">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07070d">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2307070d'/%3E%3Ctext x='16' y='22' font-family='monospace' font-weight='700' font-size='14' text-anchor='middle' fill='%23ff3ea5'%3EJ%3Ctspan fill='%233ee0ff'%3EY%3C/tspan%3E%3C/text%3E%3C/svg%3E">
+<title>JUNG YOON SUNG</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky HUD nav → hero split (intro + player card) → quest-log projects grid → skills/awards → timeline → contact */
+:root{
+  --bg:#07070d; --bg-2:#0d0d18; --panel:#12121f; --line:#24243a;
+  --fg:#ecebf5; --muted:#9a99b4; --dim:#64637e;
+  --pink:#ff3ea5; --cyan:#3ee0ff;
+  --pink-glow:rgba(255,62,165,.45); --cyan-glow:rgba(62,224,255,.40);
+  --f-display:"Chakra Petch","IBM Plex Sans KR",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.7;
+  background-image:
+    radial-gradient(900px 500px at 85% -10%,rgba(255,62,165,.10),transparent 60%),
+    radial-gradient(800px 500px at -10% 30%,rgba(62,224,255,.08),transparent 60%),
+    linear-gradient(var(--bg),var(--bg));}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(7,7,13,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{font-family:var(--f-display);font-weight:700;letter-spacing:.08em;text-decoration:none;font-size:18px}
+.logo b{color:var(--pink);text-shadow:0 0 12px var(--pink-glow)}
+.logo i{font-style:normal;color:var(--cyan);text-shadow:0 0 12px var(--cyan-glow)}
+.nav ul{display:flex;gap:22px;list-style:none;margin:0;padding:0;font-family:var(--f-mono);font-size:13px}
+.nav ul a{text-decoration:none;color:var(--muted);transition:color .2s}
+.nav ul a:hover{color:var(--cyan)}
+@media (max-width:640px){.nav ul{display:none}}
+
+/* hero */
+.hero{padding-block:84px 72px;display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:center}
+.hero>*{min-width:0}
+.eyebrow{font-family:var(--f-mono);font-size:13px;color:var(--cyan);letter-spacing:.12em;text-transform:uppercase}
+.eyebrow::before{content:"> ";color:var(--pink)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(40px,7vw,76px);line-height:1.02;letter-spacing:.01em;margin:14px 0 18px;text-wrap:balance}
+h1 .kr{display:block;font-family:var(--f-body);font-size:.42em;font-weight:600;color:var(--muted);letter-spacing:.04em;margin-bottom:10px}
+h1 .neon{color:var(--pink);text-shadow:0 0 6px var(--pink-glow),0 0 28px var(--pink-glow)}
+.role{font-size:clamp(18px,2.2vw,22px);font-weight:600;margin:0 0 14px}
+.role span{color:var(--cyan);text-shadow:0 0 14px var(--cyan-glow)}
+.lede{color:var(--muted);max-width:56ch;margin:0 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.btn{font-family:var(--f-mono);font-size:14px;text-decoration:none;padding:12px 20px;border-radius:6px;border:1px solid var(--pink);color:var(--fg);background:rgba(255,62,165,.12);box-shadow:0 0 18px rgba(255,62,165,.18) inset,0 0 18px rgba(255,62,165,.18);transition:background .2s,box-shadow .2s;cursor:pointer}
+.btn:hover{background:rgba(255,62,165,.24);box-shadow:0 0 22px rgba(255,62,165,.3) inset,0 0 26px var(--pink-glow)}
+.btn.alt{border-color:var(--cyan);background:rgba(62,224,255,.08);box-shadow:0 0 18px rgba(62,224,255,.14) inset}
+.btn.alt:hover{background:rgba(62,224,255,.18);box-shadow:0 0 22px rgba(62,224,255,.25) inset,0 0 26px var(--cyan-glow)}
+
+/* player card */
+.card-player{position:relative;background:linear-gradient(160deg,var(--panel),var(--bg-2));border:1px solid var(--line);border-radius:14px;padding:24px;overflow:hidden}
+.card-player::before{content:"";position:absolute;inset:0;border-radius:14px;padding:1px;background:linear-gradient(135deg,var(--pink),transparent 40%,transparent 60%,var(--cyan));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.cp-head{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--f-mono);font-size:12px;color:var(--dim);margin-bottom:18px;letter-spacing:.08em}
+.cp-head .on{color:var(--cyan)}
+.cp-head .on::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);margin-right:6px;vertical-align:1px;animation:blink 2s infinite}
+@keyframes blink{50%{opacity:.35}}
+.cp-row{display:grid;grid-template-columns:96px 1fr;gap:10px;padding:9px 0;border-top:1px dashed var(--line);font-size:14px}
+.cp-row dt{font-family:var(--f-mono);font-size:12px;color:var(--dim);letter-spacing:.06em;padding-top:2px}
+.cp-row dd{margin:0}
+.cp-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.stat{text-align:center;padding:12px 6px;border-radius:8px;background:rgba(255,255,255,.02);border:1px solid var(--line)}
+.stat b{display:block;font-family:var(--f-display);font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat:nth-child(odd) b{color:var(--pink);text-shadow:0 0 12px var(--pink-glow)}
+.stat:nth-child(even) b{color:var(--cyan);text-shadow:0 0 12px var(--cyan-glow)}
+.stat span{font-size:12px;color:var(--muted)}
+@media (max-width:860px){.hero{grid-template-columns:1fr;padding-block:56px 48px}}
+
+/* sections */
+section.block{padding-block:72px;border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:32px}
+h2{font-family:var(--f-display);font-size:clamp(26px,3.6vw,36px);margin:0;letter-spacing:.03em;text-wrap:balance}
+h2 small{display:block;font-family:var(--f-mono);font-size:13px;color:var(--pink);letter-spacing:.14em;font-weight:500;margin-bottom:6px}
+.sec-head p{color:var(--muted);margin:0;max-width:46ch;font-size:15px}
+
+/* about */
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:40px}
+.about>*{min-width:0}
+.about p{margin:0 0 16px;color:#cfcee0;max-width:62ch}
+.about strong{color:var(--fg)}
+.focus{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.focus li{padding:16px 18px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.focus h3{margin:0 0 4px;font-size:16px;font-family:var(--f-body)}
+.focus h3::before{content:"◆ ";color:var(--cyan);font-size:12px;vertical-align:1px}
+.focus li:nth-child(2) h3::before{color:var(--pink)}
+.focus p{margin:0;color:var(--muted);font-size:14px}
+@media (max-width:860px){.about{grid-template-columns:1fr}}
+
+/* projects */
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.filters button{font-family:var(--f-mono);font-size:12px;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
+.filters button:hover{color:var(--fg);border-color:var(--dim)}
+.filters button[aria-pressed="true"]{color:var(--bg);background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 14px var(--cyan-glow)}
+.projects{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.proj{position:relative;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .25s,border-color .25s,box-shadow .25s;min-width:0}
+.proj:hover{transform:translateY(-3px);border-color:var(--pink);box-shadow:0 0 0 1px var(--pink-glow),0 14px 40px -18px var(--pink-glow)}
+.proj.cy:hover{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan-glow),0 14px 40px -18px var(--cyan-glow)}
+.proj.feature{grid-column:1/-1}
+.thumb{height:150px;position:relative;overflow:hidden;border-bottom:1px solid var(--line)}
+.proj.feature .thumb{height:200px}
+.thumb canvas{display:block;width:100%;height:100%}
+.thumb .tag{position:absolute;top:12px;left:12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;padding:4px 9px;border-radius:4px;background:rgba(7,7,13,.78);border:1px solid var(--line)}
+.tag.live{color:var(--cyan);border-color:rgba(62,224,255,.5)}
+.tag.dev{color:var(--pink);border-color:rgba(255,62,165,.5)}
+.thumb .award{position:absolute;top:12px;right:12px;font-family:var(--f-mono);font-size:11px;padding:4px 9px;border-radius:4px;background:var(--pink);color:#0a0610;font-weight:500;box-shadow:0 0 16px var(--pink-glow)}
+.pbody{padding:20px 22px 22px;display:flex;flex-direction:column;gap:10px;flex:1}
+.pmeta{font-family:var(--f-mono);font-size:12px;color:var(--dim);letter-spacing:.04em}
+.proj h3{margin:0;font-size:21px;font-family:var(--f-body);font-weight:700;text-wrap:balance}
+.proj p{margin:0;color:var(--muted);font-size:14.5px}
+.proj ul{margin:4px 0 0;padding-left:18px;color:#cfcee0;font-size:14px}
+.proj ul li::marker{color:var(--cyan)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px}
+.chip{font-family:var(--f-mono);font-size:11px;color:var(--muted);padding:3px 8px;border:1px solid var(--line);border-radius:4px}
+.plinks{display:flex;flex-wrap:wrap;gap:14px;font-family:var(--f-mono);font-size:13px}
+.plinks a{text-decoration:none;color:var(--cyan)}
+.plinks a:hover{text-shadow:0 0 10px var(--cyan-glow)}
+.plinks a::after{content:" ↗"}
+@media (max-width:760px){.projects{grid-template-columns:1fr}}
+
+/* skills + awards */
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.duo>*{min-width:0}
+h3.sub{font-family:var(--f-mono);font-size:13px;color:var(--cyan);letter-spacing:.12em;margin:0 0 16px;font-weight:500}
+.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.skill{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.skill .ic{width:34px;height:34px;flex:none;border-radius:6px;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:13px;color:var(--pink);border:1px solid rgba(255,62,165,.4);background:rgba(255,62,165,.08)}
+.skill:nth-child(even) .ic{color:var(--cyan);border-color:rgba(62,224,255,.4);background:rgba(62,224,255,.07)}
+.skill b{display:block;font-size:14.5px}
+.skill span{font-size:12px;color:var(--muted)}
+.awards{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.awards li{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:16px 18px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+.awards .yr{font-family:var(--f-mono);font-size:12px;color:var(--pink);padding-top:3px;font-variant-numeric:tabular-nums}
+.awards b{display:block;font-size:15.5px}
+.awards span{color:var(--muted);font-size:13.5px}
+@media (max-width:860px){.duo{grid-template-columns:1fr}}
+@media (max-width:420px){.skills{grid-template-columns:1fr}}
+
+/* timeline */
+.timeline{list-style:none;margin:0;padding:0 0 0 22px;border-left:1px solid var(--line);display:grid;gap:26px}
+.timeline li{position:relative}
+.timeline li::before{content:"";position:absolute;left:-28px;top:7px;width:11px;height:11px;border-radius:50%;background:var(--bg);border:2px solid var(--cyan);box-shadow:0 0 10px var(--cyan-glow)}
+.timeline li.hl::before{border-color:var(--pink);box-shadow:0 0 10px var(--pink-glow)}
+.timeline time{font-family:var(--f-mono);font-size:12.5px;color:var(--dim);font-variant-numeric:tabular-nums}
+.timeline b{display:block;font-size:16px;margin:2px 0}
+.timeline span{color:var(--muted);font-size:14px}
+
+/* contact */
+.contact{text-align:left;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:center;padding:36px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(120deg,rgba(255,62,165,.08),rgba(62,224,255,.06))}
+.contact>*{min-width:0}
+.contact h2{font-size:clamp(24px,3.4vw,34px)}
+.contact p{color:var(--muted);margin:10px 0 0;max-width:50ch}
+.clist{display:grid;gap:10px}
+.crow{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:rgba(7,7,13,.6);font-family:var(--f-mono);font-size:13.5px}
+.crow span{overflow-wrap:anywhere;user-select:all}
+.crow a{color:var(--cyan);text-decoration:none}
+.copy{font-family:var(--f-mono);font-size:12px;padding:6px 10px;border-radius:4px;border:1px solid var(--pink);background:transparent;color:var(--pink);cursor:pointer;flex:none}
+.copy:hover{background:rgba(255,62,165,.15)}
+@media (max-width:760px){.contact{grid-template-columns:1fr;padding:24px}}
+
+footer{padding-block:36px 48px;color:var(--dim);font-family:var(--f-mono);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<nav class="nav" aria-label="주요 메뉴">
+  <div class="wrap">
+    <a class="logo" href="#top"><b>JYS</b><i>.dev</i></a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <div class="wrap">
+    <header class="hero">
+      <div>
+        <div class="eyebrow">Technical Game Designer</div>
+        <h1><span class="kr">정윤성</span>JUNG<br><span class="neon">YOON SUNG</span></h1>
+        <p class="role">전투 룰을 설계하고, <span>직접 구현해서 밸런싱하는</span> 기획자</p>
+        <p class="lede">신구대학교 게임콘텐츠학과에서 게임을 만들고 있습니다. 모든 팀 프로젝트에서 기획·PM·UI/UX를 맡았고, 적 AI와 레벨 배치를 코드로 직접 다루며 스토브인디와 스팀에 출시작 5개를 올렸습니다.</p>
+        <div class="cta">
+          <a class="btn" href="#projects">프로젝트 보기</a>
+          <a class="btn alt" href="https://github.com/JungYS24" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </div>
+
+      <aside class="card-player" aria-label="프로필 요약">
+        <div class="cp-head"><span>PLAYER_PROFILE.dat</span><span class="on">OPEN TO WORK</span></div>
+        <dl style="margin:0">
+          <div class="cp-row"><dt>CLASS</dt><dd>테크니컬 게임디자이너<br><span style="color:var(--muted);font-size:13px">시스템 · 전투 기획</span></dd></div>
+          <div class="cp-row"><dt>GUILD</dt><dd>신구대학교 게임콘텐츠학과<br><span style="color:var(--muted);font-size:13px">+ 컴퓨터공학 학점은행제 병행</span></dd></div>
+          <div class="cp-row"><dt>MAIN</dt><dd>Unreal Engine · Unity</dd></div>
+          <div class="cp-row"><dt>LANG</dt><dd>C++ · C# · TOEIC 850</dd></div>
+        </dl>
+        <div class="cp-stats">
+          <div class="stat"><b>5</b><span>스토브 출시작</span></div>
+          <div class="stat"><b>2</b><span>수상</span></div>
+          <div class="stat"><b>1</b><span>GXG 부스 운영</span></div>
+        </div>
+      </aside>
+    </header>
+  </div>
+
+  <section class="block" id="about">
+    <div class="wrap">
+      <div class="sec-head"><h2><small>// 01 ABOUT</small>기획을 코드로 증명합니다</h2></div>
+      <div class="about">
+        <div>
+          <p>처음 목표는 클라이언트 프로그래머였습니다. 연세IT미래교육원에서 8개월간 전일제로 언리얼 게임 프로그래밍을 배우며 직접 코드를 짜게 되었고, 그 과정에서 <strong>내가 설계한 룰이 실제로 재미있는지 내 손으로 확인하는 일</strong>이 가장 즐겁다는 것을 알았습니다.</p>
+          <p>그래서 지금은 전투 룰과 몬스터 패턴을 기획하고, 비헤이비어 트리와 감지 로직으로 직접 구현해 플레이테스트하며 수치를 맞추는 테크니컬 게임디자이너를 목표로 합니다.</p>
+          <p>칼퇴의 정석 VR로 인디크래프트 2026 챌린저 부문에 입상했고, GXG 2026에서는 부스를 직접 운영하며 관람객의 플레이를 현장에서 지켜봤습니다.</p>
+        </div>
+        <ul class="focus">
+          <li><h3>적 AI · 전투 설계</h3><p>비헤이비어 트리 기반 적 AI, 시야·발소리 감지 범위와 순찰 동선 설계</p></li>
+          <li><h3>레벨 · 배치 디자인</h3><p>적 출현 위치와 동선으로 긴장감의 리듬을 조절</p></li>
+          <li><h3>PM · UI/UX</h3><p>모든 팀 프로젝트에서 일정·범위 관리와 인터페이스 설계 담당</p></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="projects">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2><small>// 02 PROJECTS</small>만든 게임들</h2>
+        <div class="filters" role="group" aria-label="프로젝트 필터">
+          <button type="button" id="f-all" data-f="all" aria-pressed="true">전체</button>
+          <button type="button" id="f-live" data-f="live" aria-pressed="false">출시</button>
+          <button type="button" id="f-dev" data-f="dev" aria-pressed="false">개발 중</button>
+        </div>
+      </div>
+
+      <div class="projects" id="plist">
+        <article class="proj feature" data-s="live">
+          <div class="thumb"><canvas data-art="vr"></canvas><span class="tag live">STEAM · STOVE</span><span class="award">인디크래프트 2026 입상</span></div>
+          <div class="pbody">
+            <div class="pmeta">VR 잠입 · 팀 프로젝트 · PM / 메인 개발</div>
+            <h3>칼퇴의 정석 VR</h3>
+            <p>감시를 피해 무사히 퇴근해야 하는 VR 잠입 게임. 교육원 팀 프로젝트로 개발을 이끌었고 인디크래프트 2026 챌린저 부문에서 한국모바일게임협회장상을 받았습니다.</p>
+            <ul>
+              <li>감시 적 AI의 감지 위치, 이동 범위, 발소리 감지 로직 설계·구현</li>
+              <li>VR 프레임 최적화, 조작 체계, 멀미 저감 작업</li>
+              <li>GXG 2026 부스 직접 운영 및 현장 플레이테스트</li>
+            </ul>
+            <div class="plinks"><a href="https://github.com/Windintosh/EscapeTheOvertimeVR" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="chips"><span class="chip">VR</span><span class="chip">Enemy AI</span><span class="chip">Optimization</span><span class="chip">PM</span></div>
+          </div>
+        </article>
+
+        <article class="proj cy" data-s="live">
+          <div class="thumb"><canvas data-art="scp"></canvas><span class="tag live">STOVE</span></div>
+          <div class="pbody">
+            <div class="pmeta">슈팅 · 팀 프로젝트 · 적 전투 / 레벨</div>
+            <h3>SCP 엑소더스</h3>
+            <p>SCP 세계관의 슈팅 게임. 적 전투 설계를 맡았습니다.</p>
+            <ul>
+              <li>비헤이비어 트리 기반 적 AI 설계</li>
+              <li>적 출현 위치 레벨 디자인</li>
+            </ul>
+            <div class="plinks"><a href="https://github.com/Windintosh/SCP_EXODUS" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="chips"><span class="chip">Shooter</span><span class="chip">Behavior Tree</span><span class="chip">Level Design</span></div>
+          </div>
+        </article>
+
+        <article class="proj" data-s="live">
+          <div class="thumb"><canvas data-art="pc"></canvas><span class="tag live">STOVE</span></div>
+          <div class="pbody">
+            <div class="pmeta">잠입 · 팀 프로젝트 · 기획 / PM</div>
+            <h3>칼퇴의 정석</h3>
+            <p>칼퇴의 정석 PC 버전. 이후 VR판으로 확장된 작품입니다.</p>
+            <div class="plinks"><a href="https://github.com/Windintosh/EscapeTheOvertime" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="chips"><span class="chip">Stealth</span><span class="chip">Game Design</span><span class="chip">UI/UX</span></div>
+          </div>
+        </article>
+
+        <article class="proj cy" data-s="dev">
+          <div class="thumb"><canvas data-art="dice"></canvas><span class="tag dev">STOVE DEMO · 개발 중</span></div>
+          <div class="pbody">
+            <div class="pmeta">2D 로그라이크 · 다이스 빌딩</div>
+            <h3>트리키 요트</h3>
+            <p>주사위를 모아 빌드를 완성하는 2D 로그라이크 다이스 빌딩 게임. 스토브인디에 데모를 공개하고 개발을 이어가고 있습니다.</p>
+            <div class="plinks"><a href="https://github.com/JungYS24/Tricky-Yacht" target="_blank" rel="noopener">GitHub</a></div>
+            <div class="chips"><span class="chip">Roguelike</span><span class="chip">Dice Building</span><span class="chip">Aseprite</span></div>
+          </div>
+        </article>
+
+        <article class="proj" data-s="live">
+          <div class="thumb"><canvas data-art="td"></canvas><span class="tag live">STOVE</span></div>
+          <div class="pbody">
+            <div class="pmeta">타워 디펜스 · 1학년 작품</div>
+            <h3>네버윈터 디펜스</h3>
+            <p>1학년 때 만들어 스토브인디에 출시한 타워 디펜스 게임입니다.</p>
+            <div class="chips"><span class="chip">Tower Defense</span><span class="chip">1st Release</span></div>
+          </div>
+        </article>
+
+        <article class="proj cy" data-s="dev">
+          <div class="thumb"><canvas data-art="fish"></canvas><span class="tag dev">개발 중</span></div>
+          <div class="pbody">
+            <div class="pmeta">사이버펑크 · 낚시 / 액션</div>
+            <h3>스크랩 피싱</h3>
+            <p>사이버펑크 세계를 배경으로 한 낚시 액션 게임을 개발하고 있습니다.</p>
+            <div class="chips"><span class="chip">Action</span><span class="chip">Fishing</span><span class="chip">Cyberpunk</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="skills">
+    <div class="wrap duo">
+      <div>
+        <div class="sec-head" style="margin-bottom:20px"><h2><small>// 03 SKILLS</small>기술 스택</h2></div>
+        <div class="skills">
+          <div class="skill"><span class="ic">UE</span><div><b>Unreal Engine</b><span>VR · 적 AI · 최적화</span></div></div>
+          <div class="skill"><span class="ic">U</span><div><b>Unity</b><span>2D 로그라이크 · 팀 프로젝트</span></div></div>
+          <div class="skill"><span class="ic">C++</span><div><b>C++</b><span>언리얼 게임플레이</span></div></div>
+          <div class="skill"><span class="ic">C#</span><div><b>C#</b><span>Unity 스크립팅</span></div></div>
+          <div class="skill"><span class="ic">Git</span><div><b>Git / GitHub</b><span>팀 협업 · 버전 관리</span></div></div>
+          <div class="skill"><span class="ic">AI</span><div><b>Cursor Pro</b><span>AI 네이티브 개발</span></div></div>
+          <div class="skill"><span class="ic">PX</span><div><b>Aseprite</b><span>픽셀 아트 · 2D 리소스</span></div></div>
+          <div class="skill"><span class="ic">EN</span><div><b>TOEIC 850</b><span>2026.09 취득</span></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="sec-head" style="margin-bottom:20px"><h2><small>// 04 AWARDS</small>수상 · 전시</h2></div>
+        <ul class="awards">
+          <li><span class="yr">2026</span><div><b>인디크래프트 2026 챌린저 부문 입상</b><span>한국모바일게임협회장상 · 칼퇴의 정석 VR<br>성남산업진흥원 · 한국모바일게임협회 공동주관</span></div></li>
+          <li><span class="yr">2026</span><div><b>GXG 2026 부스 전시</b><span>판교 · 칼퇴의 정석 VR 부스 직접 운영</span></div></li>
+          <li><span class="yr">2026.10</span><div><b>신구대학교 입사경시대회 최우수상</b><span>신구대학교</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="history">
+    <div class="wrap">
+      <div class="sec-head"><h2><small>// 05 HISTORY</small>걸어온 길</h2></div>
+      <ol class="timeline">
+        <li class="hl"><time>2026.10</time><b>신구대학교 입사경시대회 최우수상</b><span>테크니컬 게임디자이너로 진로 방향 확정</span></li>
+        <li class="hl"><time>2026</time><b>인디크래프트 2026 입상 · GXG 2026 전시</b><span>칼퇴의 정석 VR</span></li>
+        <li><time>2025.08 – 2026.03</time><b>연세IT미래교육원 언리얼 게임 프로그래밍 과정</b><span>AI 네이티브 언리얼 과정 · 주 5일 전일제 · 스토브 출시작 3개 제작</span></li>
+        <li><time>2025.07</time><b>육군 병장 만기 전역</b><span>육군학생군사학교 조교</span></li>
+        <li><time>재학 중</time><b>신구대학교 게임콘텐츠학과</b><span>컴퓨터공학 학점은행제 학사 병행</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="block" id="contact">
+    <div class="wrap">
+      <div class="contact">
+        <div>
+          <h2><small style="display:block;font-family:var(--f-mono);font-size:13px;color:var(--pink);letter-spacing:.14em;font-weight:500;margin-bottom:6px">// 06 CONTACT</small>함께 재미를 만들 팀을 찾고 있습니다</h2>
+          <p>시스템·전투 기획, 테크니컬 게임디자인 포지션의 연락을 기다립니다.</p>
+        </div>
+        <div class="clist">
+          <div class="crow"><span id="mail">ys47497568@gmail.com</span><button class="copy" type="button" id="copy-mail">복사</button></div>
+          <div class="crow"><a href="https://github.com/JungYS24" target="_blank" rel="noopener">github.com/JungYS24 ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><footer><span>© 2026 JUNG YOON SUNG</span><span>Technical Game Designer</span></footer></div>
+</main>
+
+<script>
+// project filter
+(function(){
+  const btns=[...document.querySelectorAll('.filters button')];
+  const items=[...document.querySelectorAll('#plist .proj')];
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    btns.forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+    const f=b.dataset.f;
+    items.forEach(it=>{it.hidden=!(f==='all'||it.dataset.s===f);});
+  }));
+})();
+
+// copy email
+document.getElementById('copy-mail').addEventListener('click',function(){
+  const t=document.getElementById('mail').textContent,btn=this;
+  const done=()=>{btn.textContent='복사됨';setTimeout(()=>btn.textContent='복사',1600)};
+  const fallback=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('mail'));const s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='선택됨'};
+  try{navigator.clipboard.writeText(t).then(done,fallback)}catch(e){fallback()}
+});
+
+// generative neon thumbnails
+(function(){
+  const P='#ff3ea5',C='#3ee0ff';
+  const rnd=s=>()=>((s=Math.imul(s^s>>>15,1|s)+0x6D2B79F5|0)>>>0)/4294967296;
+  function draw(cv){
+    const r=cv.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2);
+    const W=Math.max(1,r.width),H=Math.max(1,r.height);
+    cv.width=W*d;cv.height=H*d;const x=cv.getContext('2d');x.scale(d,d);
+    const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#0d0b18');g.addColorStop(1,'#08121a');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    const R=rnd(cv.dataset.art.length*97+7);
+    const glow=(c,b)=>{x.strokeStyle=c;x.shadowColor=c;x.shadowBlur=b;};
+    x.lineWidth=1.5;
+    const a=cv.dataset.art;
+    if(a==='vr'||a==='pc'){ // office grid + vision cone
+      glow('rgba(62,224,255,.18)',0);
+      const hz=H*.45;
+      for(let i=-20;i<=20;i++){x.beginPath();x.moveTo(W/2+i*18,hz);x.lineTo(W/2+i*140,H);x.stroke();}
+      for(let j=0;j<8;j++){const y=hz+(H-hz)*Math.pow(j/8,1.8);x.beginPath();x.moveTo(0,y);x.lineTo(W,y);x.stroke();}
+      const ex=W*(a==='vr'?.68:.6),ey=hz+12;
+      x.fillStyle='rgba(255,62,165,.16)';x.beginPath();x.moveTo(ex,ey);x.lineTo(ex-W*.28,H);x.lineTo(ex+W*.05,H);x.closePath();x.fill();
+      glow(P,16);x.beginPath();x.moveTo(ex,ey);x.lineTo(ex-W*.28,H);x.moveTo(ex,ey);x.lineTo(ex+W*.05,H);x.stroke();
+      x.fillStyle=P;x.beginPath();x.arc(ex,ey,5,0,7);x.fill();
+      glow(C,18);x.strokeRect(W*.12,H*.22,W*.16,H*.16);
+      x.fillStyle=C;x.font='600 12px "JetBrains Mono",monospace';x.shadowBlur=10;x.fillText('18:00',W*.135,H*.32);
+      if(a==='vr'){x.shadowBlur=14;x.beginPath();x.ellipse(W*.3,H*.72,28,16,0,0,7);x.ellipse(W*.3+64,H*.72,28,16,0,0,7);x.stroke();}
+    }else if(a==='scp'){ // corridor + crosshair
+      glow('rgba(62,224,255,.5)',10);
+      for(let i=0;i<6;i++){const k=i/6;const w=W*(1-k*.85),h=H*(1-k*.85);x.strokeRect((W-w)/2,(H-h)/2,w,h);}
+      glow(P,16);const cx=W*.5,cy=H*.5;x.beginPath();x.arc(cx,cy,18,0,7);x.moveTo(cx-30,cy);x.lineTo(cx-8,cy);x.moveTo(cx+8,cy);x.lineTo(cx+30,cy);x.moveTo(cx,cy-30);x.lineTo(cx,cy-8);x.moveTo(cx,cy+8);x.lineTo(cx,cy+30);x.stroke();
+      x.fillStyle=P;for(let i=0;i<3;i++){x.beginPath();x.arc(W*(.35+R()*.3),H*(.4+R()*.2),3,0,7);x.fill();}
+    }else if(a==='dice'){ // dice faces
+      const s=Math.min(H*.42,70),pip=[[],[[.5,.5]],[[.25,.25],[.75,.75]],[[.25,.25],[.5,.5],[.75,.75]],[[.25,.25],[.75,.25],[.25,.75],[.75,.75]],[[.25,.25],[.75,.25],[.5,.5],[.25,.75],[.75,.75]],[[.25,.25],[.75,.25],[.25,.5],[.75,.5],[.25,.75],[.75,.75]]];
+      const n=Math.max(3,Math.floor(W/(s*1.5)));
+      for(let i=0;i<n;i++){const c=i%2?C:P;const px=(W-(n*s*1.4-s*.4))/2+i*s*1.4,py=H/2-s/2+(i%2?-10:10);
+        x.save();x.translate(px+s/2,py+s/2);x.rotate((R()-.5)*.5);glow(c,16);x.beginPath();x.roundRect(-s/2,-s/2,s,s,10);x.stroke();
+        x.fillStyle=c;(pip[1+Math.floor(R()*6)]).forEach(([u,v])=>{x.beginPath();x.arc((u-.5)*s,(v-.5)*s,s*.07,0,7);x.fill();});x.restore();}
+    }else if(a==='td'){ // path + towers
+      glow('rgba(62,224,255,.6)',12);x.lineWidth=10;x.globalAlpha=.25;x.beginPath();x.moveTo(0,H*.3);x.lineTo(W*.35,H*.3);x.lineTo(W*.35,H*.72);x.lineTo(W*.7,H*.72);x.lineTo(W*.7,H*.35);x.lineTo(W,H*.35);x.stroke();
+      x.globalAlpha=1;x.lineWidth=1.5;
+      [[.2,.62],[.52,.5],[.85,.62]].forEach(([u,v],i)=>{glow(i%2?C:P,16);x.beginPath();x.moveTo(W*u,H*v-16);x.lineTo(W*u+14,H*v+10);x.lineTo(W*u-14,H*v+10);x.closePath();x.stroke();x.globalAlpha=.25;x.beginPath();x.arc(W*u,H*v,46,0,7);x.stroke();x.globalAlpha=1;});
+    }else{ // fishing line over city
+      x.fillStyle='#0b0b16';for(let i=0;i<14;i++){const w=W/14,h=H*(.25+R()*.45);x.fillRect(i*w,H-h,w-3,h);}
+      x.fillStyle='rgba(62,224,255,.5)';for(let i=0;i<40;i++)x.fillRect(R()*W,H*.4+R()*H*.6,2,3);
+      glow(P,16);x.beginPath();x.moveTo(W*.12,0);x.quadraticCurveTo(W*.5,H*.2,W*.62,H*.62);x.stroke();
+      x.beginPath();x.arc(W*.62,H*.66,7,Math.PI*.1,Math.PI*1.1,false);x.stroke();
+      glow(C,14);x.strokeRect(W*.58,H*.72,26,18);
+    }
+    x.shadowBlur=0;
+    // scanlines
+    x.fillStyle='rgba(0,0,0,.18)';for(let y=0;y<H;y+=3)x.fillRect(0,y,W,1);
+  }
+  const cvs=[...document.querySelectorAll('canvas[data-art]')];
+  const all=()=>cvs.forEach(c=>{if(c.offsetParent)draw(c)});
+  all();let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(all,150)});
+  document.querySelectorAll('.filters button').forEach(b=>b.addEventListener('click',()=>requestAnimationFrame(all)));
+  if(document.fonts)document.fonts.ready.then(all);
+})();
+</script>
+
+</body>
+</html>
